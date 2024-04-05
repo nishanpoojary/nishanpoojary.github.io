@@ -20,7 +20,12 @@
         }
     </style>
 </head>
+
+
+<script src="configuration.js"></script>
 <script>
+    let hosts = configuration.hosts_local;
+    displayLogin();
 
     async function add() {
         const x = parseInt(document.getElementById("quantity1").value)
@@ -57,7 +62,11 @@
     async function isPrime() {
         const numberToTest = document.getElementById("numberToTest");
         let n = numberToTest.value;
-        const response = await fetch("https://primes-service-latest-nishanpoojary.onrender.com/primes/" + n);
+        const headers = {
+            'Authorization': `Bearer ${configuration.token}`
+        };
+
+        const response = await fetch(`${hosts.primes_service}/primes/${n}`, { headers });
         const result = await response.json();
         document.getElementById("primeCheckResult").innerText = result;
     }
@@ -72,6 +81,8 @@
 </script>
 
 <body>
+    <div class="row" id="login">
+    </div>
     <div class="row">
         <div class="column">
             <section>
